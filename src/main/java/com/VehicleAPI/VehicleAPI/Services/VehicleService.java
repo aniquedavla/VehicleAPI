@@ -5,6 +5,8 @@ import com.VehicleAPI.VehicleAPI.Repositories.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
+import java.util.Iterator;
 import java.util.Optional;
 
 //VehicleService communicates with data repository wrapper to create, update and delete appropriate data about vehicle.
@@ -44,5 +46,23 @@ public class VehicleService {
         }
         Vehicle updatedVehicle = vehicleRepo.save(vehicle.get());
         return updatedVehicle;
+    }
+
+    public Iterable<Vehicle> getAllVehiclesByMake(String make) {
+        return vehicleRepo.findAllVehicleByMake(make);
+    }
+
+    public Iterable<Vehicle> getAllVehiclesByModel(String model) {
+        return vehicleRepo.findAllVehicleByModel(model);
+    }
+
+    public Optional<Vehicle> updateFistAvailableYearByModel(String model, Integer year){
+        Vehicle foundAvailableVehicle = vehicleRepo.findFirstEmptyYearWithModel(model);
+        if(foundAvailableVehicle == null){
+            return null;
+        }
+        foundAvailableVehicle.setYear(year);
+        vehicleRepo.save(foundAvailableVehicle);
+        return Optional.ofNullable(foundAvailableVehicle);
     }
 }

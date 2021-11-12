@@ -4,6 +4,7 @@ import javax.persistence.*;
 
 //Vehicle table
 @Entity
+@Table(name = "vehicle")
 public class Vehicle {
 
     @Id
@@ -12,7 +13,7 @@ public class Vehicle {
     private Integer id;
 
     @Column(name="year")
-    private int year;
+    private Integer year;
 
     @Column(name="make")
     private String make;
