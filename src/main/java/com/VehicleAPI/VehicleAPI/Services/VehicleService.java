@@ -1,13 +1,12 @@
 package com.VehicleAPI.VehicleAPI.Services;
 
 import com.VehicleAPI.VehicleAPI.Entities.Vehicle;
+import com.VehicleAPI.VehicleAPI.Exceptions.ResourceNotCreatedException;
+import com.VehicleAPI.VehicleAPI.Exceptions.ResourceNotFoundException;
 import com.VehicleAPI.VehicleAPI.Repositories.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
-import javax.swing.text.html.Option;
-import java.util.Iterator;
 import java.util.Optional;
 
 //VehicleService communicates with data repository wrapper to create, update and delete appropriate data about vehicle.
@@ -20,17 +19,17 @@ public class VehicleService {
     //stores the vehicle using data repo function
     public Vehicle createVehicle(Vehicle vehicle){
 
-        Optional<Vehicle> findVehicleWithSN = vehicleRepo.findAllBySerialNumber(vehicle.getSerialNumber());
-        System.out.println("Found vehicle" + findVehicleWithSN.toString());
-        if(findVehicleWithSN.equals(vehicle)){
-            return null;
+        Vehicle foundVehicleWithSN = vehicleRepo.findBySerialNumber(vehicle.getSerialNumber());
+        System.out.println("Found vehicle" + foundVehicleWithSN);
+        if(foundVehicleWithSN.equals(vehicle)){
+            throw new ResourceNotCreatedException("Add Vehicle", "serialNumber", vehicle.getSerialNumber());
         }
         return vehicleRepo.save(vehicle);
     }
 
     //retrieves a vehicle using the vehicle id
-    public Optional<Vehicle> getVehicleById(Integer vehicleId){
-        return vehicleRepo.findById(vehicleId);
+    public Vehicle getVehicleById(Integer vehicleId){
+        return vehicleRepo.findById(vehicleId).orElseThrow(() -> new ResourceNotFoundException("Get vehicle", "id", vehicleId));
     }
 
     //retrieves an iterable data of all vehicles

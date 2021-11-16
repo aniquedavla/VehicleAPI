@@ -2,6 +2,7 @@ package com.VehicleAPI.VehicleAPI.Controllers;
 
 
 import com.VehicleAPI.VehicleAPI.Entities.Vehicle;
+import com.VehicleAPI.VehicleAPI.Exceptions.ResourceNotFoundException;
 import com.VehicleAPI.VehicleAPI.Services.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +28,7 @@ public class VehicleRestController {
 
     @GetMapping(value = "/vehicles/{vehicleId}")
     public Vehicle getVehicle(@PathVariable("vehicleId") Integer vehicleId){
-        return vehicleService.getVehicleById(vehicleId).get();
+        return vehicleService.getVehicleById(vehicleId);
     }
 
     @GetMapping(value = "/vehicles")
