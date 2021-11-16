@@ -1,6 +1,7 @@
 package com.VehicleAPI.VehicleAPI.Entities;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 //Vehicle table
 @Entity
@@ -21,13 +22,11 @@ public class Vehicle {
     @Column(name="model")
     private String model;
 
+    @Column(name = "serial-number")
+    private Integer serialNumber;
 
     public Integer getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public Integer getYear() {
@@ -54,8 +53,42 @@ public class Vehicle {
         this.model = model;
     }
 
-    //json of class data
+    public Integer getSerialNumber() {
+        return serialNumber;
+    }
+
+    public void setYear(Integer year) {
+        this.year = year;
+    }
+
+    public void setSerialNumber(Integer serialNumber) {
+        this.serialNumber = serialNumber;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Vehicle vehicle = (Vehicle) o;
+        return id.equals(vehicle.id) &&
+                year.equals(vehicle.year) &&
+                serialNumber.equals(vehicle.serialNumber);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, year, serialNumber);
+    }
+
+
     @Override
     public String toString() {
-        return "Vehicle [id=" + id + ", year=" + year + ", make=" + make + ", model=" + model + "]";
-    }}
+        return "Vehicle{" +
+                "id=" + id +
+                ", year=" + year +
+                ", make='" + make + '\'' +
+                ", model='" + model + '\'' +
+                ", serialNumber=" + serialNumber +
+                '}';
+    }
+}

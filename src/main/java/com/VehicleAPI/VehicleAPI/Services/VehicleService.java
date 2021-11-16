@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import javax.swing.text.html.Option;
 import java.util.Iterator;
 import java.util.Optional;
 
@@ -18,6 +19,12 @@ public class VehicleService {
 
     //stores the vehicle using data repo function
     public Vehicle createVehicle(Vehicle vehicle){
+
+        Optional<Vehicle> findVehicleWithSN = vehicleRepo.findAllBySerialNumber(vehicle.getSerialNumber());
+        System.out.println("Found vehicle" + findVehicleWithSN.toString());
+        if(findVehicleWithSN.equals(vehicle)){
+            return null;
+        }
         return vehicleRepo.save(vehicle);
     }
 

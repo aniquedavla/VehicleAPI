@@ -21,7 +21,8 @@ public class VehicleRestController {
     @PostMapping(value = "/addNote")
     public Vehicle createVehicle(@RequestBody Vehicle vehicle) {
         System.out.println(vehicle);
-        return vehicleService.createVehicle(vehicle);
+        Vehicle createdVehicle = vehicleService.createVehicle(vehicle);
+        return createdVehicle;
     }
 
     @GetMapping(value = "/vehicles/{vehicleId}")
